@@ -15,6 +15,7 @@ slice_end = 109                                 # enter last slice
 rows = []
 a_conc = []
 cov = []
+suv_ratio = []
 slice_number = []
 if not os.path.exists('Verwerkte EARLS'):
   os.mkdir('Verwerkte EARLS')
@@ -35,6 +36,7 @@ for row in rows_relevant:
         slice_number.append(int(row[0]))
         a_conc.append(float(row[1]))
         cov.append(float(row[3]))
+        suv_ratio.append((float(row[2])-1)*100)
 
 
 #--------------------------------------------------------------------------
@@ -51,6 +53,7 @@ for conc in a_conc:
 
 ax1.plot(slice_number,a_conc , color='blue',label='Afwijking tussen gem. van snede en gem. van totaal')
 ax1.plot(slice_number,cov , color='green',label='CoV (= stdev(snede)/mean(snede))')
+ax1.plot(slice_number,suv_ratio, color='blue',linestyle='--',label='SUV ratio')
 ax1.axhline(10,color='red')
 ax1.axhline(-10,color='red',label='Limieten')
 ax1.axhline(0,color='black')
