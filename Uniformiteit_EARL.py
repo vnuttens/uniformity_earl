@@ -14,6 +14,7 @@ slice_end = 109                                 # enter last slice
 # Initialisation
 rows = []
 a_conc = []
+cov = []
 slice_number = []
 if not os.path.exists('Verwerkte EARLS'):
   os.mkdir('Verwerkte EARLS')
@@ -33,6 +34,7 @@ for row in rows_relevant:
     if int(row[0]) >= slice_begin and int(row[0]) <= slice_end:
         slice_number.append(int(row[0]))
         a_conc.append(float(row[1]))
+        cov.append(float(row[3]))
 
 
 #--------------------------------------------------------------------------
@@ -47,14 +49,15 @@ for conc in a_conc:
     a_conc[i] = (conc - avg) / avg*100
     i+=1
 
-ax1.plot(slice_number,a_conc , color='blue')
+ax1.plot(slice_number,a_conc , color='blue',label='Afwijking tussen gem. van snede en gem. van totaal')
+ax1.plot(slice_number,cov , color='green',label='CoV (= stdev(snede)/mean(snede))')
 ax1.axhline(10,color='red')
-ax1.axhline(-10,color='red')
+ax1.axhline(-10,color='red',label='Limieten')
 ax1.axhline(0,color='black')
 
-ax1.set_title('Afwijking tussen gem. van snede en gem. van totaalvolume [%]')
+ax1.set_title('Uniformiteitstest PET')
 ax1.set_ylabel('Afwijking [%]')
 ax1.set_xlabel('Snede nummer')
-#ax1.legend()
+ax1.legend(bbox_to_anchor=(0.5, -0.2, 0.5, 0.5))
 
 fig1.savefig(os.path.join('Verwerkte EARLS',f'{filename}.pdf'))
